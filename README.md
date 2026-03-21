@@ -23,3 +23,9 @@ import "./.next/dev/types/routes.d.ts";
 ลองเข้า http://localhost:3000/test ถ้าเขียวคือผ่าน
 
 ถ้าแตกก้ gemini สะ
+npm install ใน backend มั้ง และไฟลหลักด้วย
+ไฟล ปกติ
+npm install @reduxjs/toolkit react-redux redux-persist next-auth
+
+ไฟล Backend
+npm install express mongoose dotenv cors bcryptjs jsonwebtoken cookie-parser && npm install -D nodemon
