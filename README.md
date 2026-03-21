@@ -18,6 +18,14 @@ import "./.next/dev/types/routes.d.ts";
 // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
 
 ก่อนจะใช้ สร้างอีกterminal  cd backend แล้วไป npm start ก่อน 
+แล้วลองเข้า http://localhost:5000/restaurant ดูว่าข้อมูลขึ้นไหม
 แล้วค่อย npm run dev ไฟลหลัก 
 ลองเข้า http://localhost:3000/test ถ้าเขียวคือผ่าน
+
 ถ้าแตกก้ gemini สะ
+npm install ใน backend มั้ง และไฟลหลักด้วย
+ไฟล ปกติ
+npm install @reduxjs/toolkit react-redux redux-persist next-auth
+
+ไฟล Backend
+npm install express mongoose dotenv cors bcryptjs jsonwebtoken cookie-parser && npm install -D nodemon
