@@ -6,7 +6,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:500
 
 // ดึงรายชื่อร้านทั้งหมด (ข้อ 3: User View Product)
 export async function getRestaurants(): Promise<RestaurantItem[]> {
-    const response = await fetch(`${BACKEND_URL}/restaurants`);
+    const response = await fetch(`${BACKEND_URL}/restaurant`);
     if (!response.ok) throw new Error("Failed to fetch restaurants");
     const json = await response.json();
     return json.data; // Backend ส่วนใหญ่จะส่งมาในรูปแบบ { success: true, data: [...] }
@@ -14,7 +14,7 @@ export async function getRestaurants(): Promise<RestaurantItem[]> {
 
 // ดึงข้อมูลร้านเดียว (สำหรับหน้าจอง)
 export async function getRestaurant(id: string): Promise<RestaurantItem> {
-    const response = await fetch(`${BACKEND_URL}/restaurants/${id}`);
+    const response = await fetch(`${BACKEND_URL}/restaurant/${id}`);
     if (!response.ok) throw new Error("Failed to fetch restaurant");
     const json = await response.json();
     return json.data;
