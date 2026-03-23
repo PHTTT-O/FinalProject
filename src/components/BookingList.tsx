@@ -143,7 +143,7 @@ export default function BookingList() {
                                 </div>
                                 
                                 <div className="mt-8 flex justify-end items-center gap-6">
-                                    <Link href={`/booking/edit/${bookingItem._id}`}>
+                                    <Link href={`/mybooking/edit/${bookingItem._id}`}>
         <button className="text-[10px] font-black uppercase tracking-widest text-blue-500 hover:text-blue-700 transition-all py-2 px-4 rounded-xl hover:bg-blue-50">
             Edit Reservation
         </button>
