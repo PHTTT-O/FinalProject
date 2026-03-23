@@ -10,7 +10,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between h-20 items-center">
           
-          {/* Logo - ใช้ Font Serif ให้เหมือนหน้า Home */}
+          {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="group flex items-center gap-1">
               <span className="text-3xl font-serif font-bold tracking-tighter text-slate-900 group-hover:text-amber-600 transition-colors">
@@ -23,9 +23,17 @@ export default function Navbar() {
           <div className="flex items-center gap-10 font-sans">
             
             {session ? (
-              // แสดงเมื่อ Login แล้ว
               <div className="flex items-center gap-8">
-                <div className="hidden sm:flex flex-col items-end border-r border-slate-200 pr-6">
+                
+                {/* 🌟 เพิ่มเมนู My Booking ตรงนี้ */}
+                <Link 
+                  href="/mybooking" 
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-amber-600 transition-all border-b border-transparent hover:border-amber-200 pb-1"
+                >
+                  My Bookings
+                </Link>
+
+                <div className="hidden sm:flex flex-col items-end border-l border-slate-200 pl-8">
                   <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">
                     Distinguished Guest
                   </span>
@@ -36,16 +44,15 @@ export default function Navbar() {
                 
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="group flex items-center gap-2 text-slate-400 hover:text-red-500 transition-all text-xs font-bold uppercase tracking-widest"
+                  className="group flex items-center gap-2 text-slate-400 hover:text-red-500 transition-all text-[10px] font-bold uppercase tracking-widest"
                 >
-                  <span className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-red-50 transition-all">
+                  <span className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-red-50 transition-all text-base">
                     🚪
                   </span>
                   Sign Out
                 </button>
               </div>
             ) : (
-              // แสดงเมื่อยังไม่ได้ Login
               <div className="flex items-center gap-8">
                 <Link 
                   href="/login" 

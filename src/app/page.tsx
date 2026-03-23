@@ -5,6 +5,7 @@ import { getRestaurants } from "@/libs/apiActions";
 import { RestaurantItem } from "../interface";
 
 export default async function Home() {
+
   // นำเอา timeout ออกหรือปรับลดลงตามความเหมาะสม
   let restaurants: RestaurantItem[] = [];
   try {
