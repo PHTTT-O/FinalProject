@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -8,7 +9,7 @@ export default function RegisterPage() {
     email: "",
     telephone: "",
     password: "",
-    role: "user", // ตั้ง Default เป็น user ไว้ก่อน
+    role: "user",
   });
   const router = useRouter();
 
@@ -23,69 +24,83 @@ export default function RegisterPage() {
 
       const data = await res.json();
       if (res.ok && data.success) {
-        alert("Register Successful!");
-        router.push("/login"); // สมัครเสร็จส่งไปหน้า Login
+        alert("สมัครสมาชิกสำเร็จ!");
+        router.push("/login");
       } else {
-        alert(data.msg || "Register Failed password must be at least 6 characters ");
+        alert(data.msg || "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร");
       }
     } catch (err) {
       console.error(err);
-      alert("Error connecting to server");
+      alert("เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
     }
   };
 
- return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      {/* Card Container */}
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md transform transition-all hover:scale-[1.01]">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#fcfcfc] p-6 font-sans relative overflow-hidden">
+      
+      {/* Background Ambience */}
+      <div className="absolute top-0 right-0 w-full h-full overflow-hidden -z-10 opacity-40">
+        <div className="absolute top-[10%] right-[5%] w-[35%] h-[35%] rounded-full bg-amber-50 blur-[100px]"></div>
+        <div className="absolute bottom-[5%] left-[5%] w-[30%] h-[30%] rounded-full bg-slate-100 blur-[100px]"></div>
+      </div>
+
+      <div className="bg-white p-10 md:p-12 rounded-[40px] shadow-2xl shadow-slate-200/50 w-full max-w-lg border border-slate-50 transition-all">
         
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-purple-700">Create Account</h1>
-          <p className="text-gray-500 mt-2">Join us and discover the best restaurants</p>
+        <div className="text-center mb-10">
+          <span className="text-amber-600 font-bold tracking-[0.3em] text-[10px] uppercase block mb-2">
+            Privilege Membership
+          </span>
+          <h1 className="text-4xl font-serif italic text-slate-900 mb-2">
+            Create <span className="text-amber-600 not-italic font-medium">Account</span>
+          </h1>
+          <p className="text-slate-400 font-light text-sm tracking-wide">
+            ร่วมเป็นส่วนหนึ่งกับเรา เพื่อสัมผัสประสบการณ์มื้ออาหารที่เหนือระดับ
+          </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input 
-              type="text" 
-              placeholder="username" 
-              className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
-              onChange={(e)=>setFormData({...formData, name: e.target.value})} 
-              required 
-            />
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Full Name</label>
+              <input 
+                type="text" 
+                placeholder="ชื่อ-นามสกุล" 
+                className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:bg-white outline-none transition-all text-slate-700 placeholder:text-slate-300 text-sm"
+                onChange={(e)=>setFormData({...formData, name: e.target.value})} 
+                required 
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Telephone</label>
+              <input 
+                type="tel" 
+                placeholder="08X-XXX-XXXX" 
+                className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:bg-white outline-none transition-all text-slate-700 placeholder:text-slate-300 text-sm"
+                onChange={(e)=>setFormData({...formData, telephone: e.target.value})} 
+                required 
+              />
+            </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
             <input 
               type="email" 
-              placeholder="name@gmail.com" 
-              className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+              placeholder="name@email.com" 
+              className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:bg-white outline-none transition-all text-slate-700 placeholder:text-slate-300 text-sm"
               onChange={(e)=>setFormData({...formData, email: e.target.value})} 
               required 
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
-            <input 
-              type="tel" 
-              placeholder="081-234-5678" 
-              className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
-              onChange={(e)=>setFormData({...formData, telephone: e.target.value})} 
-              required 
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Password</label>
             <input 
               type="password" 
               placeholder="••••••••" 
-              className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+              className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:bg-white outline-none transition-all text-slate-700 placeholder:text-slate-300 text-sm"
               onChange={(e)=>setFormData({...formData, password: e.target.value})} 
               required 
             />
@@ -93,17 +108,21 @@ export default function RegisterPage() {
 
           <button 
             type="submit" 
-            className="w-full bg-purple-600 text-white p-3 rounded-xl font-semibold shadow-lg hover:bg-purple-700 hover:shadow-purple-200 active:scale-[0.98] transition-all mt-4"
+            className="w-full bg-slate-900 text-amber-500 p-4 rounded-2xl font-bold tracking-[0.2em] uppercase shadow-xl shadow-slate-900/20 hover:bg-slate-800 hover:text-amber-400 active:scale-[0.98] transition-all mt-4 text-sm"
           >
-            Create Account
+            Create Membership
           </button>
         </form>
 
         {/* Footer */}
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Already have an account? 
-          <a href="/login" className="text-purple-600 font-bold hover:underline ml-1">Log in</a>
-        </p>
+        <div className="mt-10 pt-8 border-t border-slate-50 text-center">
+          <p className="text-xs text-slate-400 font-light tracking-wide">
+            Already a member? 
+            <Link href="/login" className="text-amber-600 font-bold hover:text-amber-700 ml-2 underline decoration-amber-200 underline-offset-4">
+                Sign in instead
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

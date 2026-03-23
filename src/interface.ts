@@ -1,4 +1,5 @@
 // ข้อมูลผู้ใช้
+import { getRestaurants } from "@/libs/apiActions";
 export interface UserItem {
   _id?: string;
   name: string;
@@ -29,4 +30,21 @@ export interface BookingItem {
   createdAt?: string;
   // เพิ่มเติมสำหรับแสดงผลใน Frontend (Populate)
   restaurant_name?: string; 
+}
+
+export default async function Home() {
+  // 1. ประกาศตัวแปรเป็น Array รอไว้
+  let restaurants: RestaurantItem[] = []; 
+  
+  try {
+    // 2. รับค่าจากฟังก์ชันมาเก็บไว้ที่ตัวแปรกลางก่อน (เป็น any หรือ interface ของตัวมันเอง)
+    const res = await getRestaurants();
+    
+    // 3. ดึงเฉพาะส่วนที่เป็น Array (data) มาใส่ในตัวแปร restaurants
+    // เช็กให้ชัวร์ว่า Backend ส่ง field ชื่อ 'data' มาจริงๆ
+    restaurants = res; 
+  } catch (e) {
+    console.error("Fetch error:", e);
+    restaurants = [];
+  }
 }

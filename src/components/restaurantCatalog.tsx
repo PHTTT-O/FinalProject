@@ -15,7 +15,7 @@ export default async function RestaurantCatalog({ RestaurantJson }: Props){
                 {response.map((item)=>(
                     <Link key={item._id} href={`/restaurant/${item._id}`}>
                         {/* <Card venueName={item.name} imgSrc={item.picture} /> ไม่มีรูป*/}
-                        <Card restaurantName={item.name} imgSrc="" />
+                        <Card restaurantName={item.name} imgSrc="/res1.jpg" />
                     </Link>  
                 ))}
             </div>

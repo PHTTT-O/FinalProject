@@ -18,8 +18,9 @@ interface Props {
 export default function CreateBooking({ rid, restaurantName }: Props){
     const dispatch = useDispatch<AppDispatch>()
     const [bookingDate , setBookingDate] = useState<Dayjs|null>(null);
-    const [tableCount , setTableCount] = useState<number>(0)
+    const [tableCount , setTableCount] = useState<number>(1) // ปรับ default เป็น 1 จะได้ดูสวยกว่า 0
     const { data: session } = useSession();
+
     const makeBooking = async ()=>{
         if (!bookingDate) { alert("กรุณาเลือกวันที่ต้องการจอง"); return; }
         if (!session) {
@@ -27,10 +28,8 @@ export default function CreateBooking({ rid, restaurantName }: Props){
             return;
         }
         try {
-            console.log("🔑 Token ที่จะส่งไป:", session.user.token);
-            // เตรียมข้อมูลที่จะส่งไป Backend
             const item: BookingItem = {
-                user_id: session.user._id, // เอา ID จริงจากคนล็อกอิน
+                user_id: session.user._id,
                 restaurant_id: rid,
                 date: dayjs(bookingDate).format("YYYY/MM/DD"),
                 table_count: tableCount,
@@ -38,43 +37,73 @@ export default function CreateBooking({ rid, restaurantName }: Props){
                 restaurant_name: restaurantName,
             };
 
-            // ✨ 1. ยิง API ไปเซฟลง Database ก่อน
             const response = await createReservation(item, session.user.token);
 
-            // ✨ 2. ถ้า Backend ตอบกลับมาว่า Success (ไม่ติด catch) ค่อยบันทึกลง Redux
-            // แนะนำให้เอา _id ของการจองที่ Backend สร้างให้ ยัดใส่กลับไปใน item ด้วยครับ
             const bookingToRedux = {
                 ...item,
-                _id: response.data._id // สมมติว่า Backend ส่ง _id กลับมาใน response.data
+                _id: response.data._id 
             };
             
             dispatch(addBooking(bookingToRedux));
-            console.log("success to submit")
+            alert("จองโต๊ะสำเร็จ! ขอให้มีความสุขกับมื้ออาหารสุดพิเศษ");
 
         } catch (error) {
             console.error("Booking Error:", error);
             alert("เกิดข้อผิดพลาดในการจอง กรุณาลองใหม่ครับ");
         }      
     }
+
     return(
-        <div className="flex flex-col m-[5px]">
-            <DateReserve onDateChange={(value) => setBookingDate(value)}/>
-            <FormControl className="my-[8px]">
-                        <InputLabel>Select your amout of table</InputLabel>
-                        <Select 
-                            id="tableCount"
-                            value={tableCount}
-                            label="Select your amout of table"
-                            onChange={(e)=>{setTableCount(e.target.value)}}
-                        >
-                            <MenuItem value={1}>1</MenuItem>
-                            <MenuItem value={2}>2</MenuItem>
-                            <MenuItem value={3}>3</MenuItem>
-                        </Select>
-                    </FormControl>
-            <button className="bg-indigo-500 text-white text-xl rounded-xl p-[8px]  hover:bg-indigo-600 my-[8px]" onClick={makeBooking}>booking</button>
+        <div className="flex flex-col gap-6 w-full">
+            {/* 🗓️ Date Picker Section */}
+            <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">
+                    Select Date
+                </label>
+              
+                    <DateReserve onDateChange={(value) => setBookingDate(value)}/>
+             
+            </div>
+
+            {/* 🍽️ Table Selection Section */}
+            <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">
+                    Number of Tables
+                </label>
+                <FormControl fullWidth className="bg-slate-400 rounded-2xl overflow-hidden">
+                    <Select 
+                        id="tableCount"
+                        value={tableCount}
+                        onChange={(e)=>{setTableCount(Number(e.target.value))}}
+                        sx={{
+                            color: 'white',
+                            '.MuiOutlinedInput-notchedOutline': { border: 'none' },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                            '.MuiSvgIcon-root': { color: '#f59e0b' }, // Amber color for icon
+                            padding: '4px'
+                        }}
+                    >
+                        {[1, 2, 3].map((num) => (
+                            <MenuItem key={num} value={num}>
+                                {num} {num === 1 ? 'Table' : 'Tables'}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </div>
+
+            {/* 🔔 Submit Button */}
+            <button 
+                className="w-full bg-amber-600 text-white text-sm font-bold uppercase tracking-[0.2em] rounded-2xl py-5 shadow-xl shadow-amber-900/20 hover:bg-amber-500 hover:-translate-y-1 transition-all duration-300 active:scale-95 mt-4" 
+                onClick={makeBooking}
+            >
+                Confirm Reservation
+            </button>
+
+            <p className="text-[9px] text-slate-500 text-center leading-relaxed italic">
+                By clicking confirm, you agree to our <br/>
+                premium dining terms and conditions.
+            </p>
         </div>
-        
-        
     )
 }
