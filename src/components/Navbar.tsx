@@ -17,6 +17,12 @@ export default function Navbar() {
             </Link>
           </div>
 
+          <div className="flex-shrink-0">
+            <Link href="/mybooking" className="text-3xl font-black tracking-tighter text-purple-700 hover:text-purple-800 transition-all">
+              RESERVE<span className="text-gray-900 font-light">ME</span>
+            </Link>
+          </div>
+
           {/* Navigation Links - ขยายขนาดตัวอักษรและปุ่ม */}
           <div className="flex items-center gap-8">
             

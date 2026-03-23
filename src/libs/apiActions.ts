@@ -24,7 +24,7 @@ export async function getRestaurant(id: string): Promise<RestaurantItem> {
 
 // สร้างการจองใหม่ (ข้อ 4: User Create Booking)
 export async function createReservation(booking: BookingItem, token: string) {
-    const response = await fetch(`${BACKEND_URL}/reservations`, {
+    const response = await fetch(`${BACKEND_URL}/reservation`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -36,12 +36,16 @@ export async function createReservation(booking: BookingItem, token: string) {
             table_count: booking.table_count
         }),
     });
-    return await response.json();
+    const json = await response.json();
+    if (!response.ok) {
+        throw new Error(json.message || `Backend Error: ${response.status}`);
+    }
+    return await json
 }
 
 // ดูรายการจอง (ข้อ 5: User View / ข้อ 10: Admin View)
 export async function getReservations(token: string) {
-    const response = await fetch(`${BACKEND_URL}/reservations`, {
+    const response = await fetch(`${BACKEND_URL}/reservation`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
     });
@@ -51,7 +55,7 @@ export async function getReservations(token: string) {
 
 // ลบการจอง (ข้อ 7: User Delete / ข้อ 12: Admin Delete)
 export async function deleteReservation(id: string, token: string) {
-    const response = await fetch(`${BACKEND_URL}/reservations/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/reservation/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
     });
@@ -60,7 +64,7 @@ export async function deleteReservation(id: string, token: string) {
 
 // แก้ไขการจอง (ข้อ 6: User Update / ข้อ 11: Admin Update)
 export async function updateReservation(id: string, booking: Partial<BookingItem>, token: string) {
-    const response = await fetch(`${BACKEND_URL}/reservations/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/reservation/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
