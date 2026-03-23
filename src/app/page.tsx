@@ -3,7 +3,8 @@ import RestaurantCatalog from "@/components/restaurantCatalog";
 import { getRestaurants } from "@/libs/apiActions";
 
 export default async function Home() {
-  let restaurants = [];
+
+  let restaurants: any[] = [];
   try {
     restaurants = await getRestaurants();
   } catch (e) {
