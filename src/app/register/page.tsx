@@ -28,11 +28,18 @@ export default function RegisterPage() {
       router.push("/login");
     } else {
       const msg = data.msg || "";
-     if (res.status === 400 || res.status === 409) {
-  alert("คุณสมัครสมาชิกไปแล้ว กรุณาเข้าสู่ระบบแทน");
-} else {
-  alert(msg || "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร");
-}
+      if (
+        res.status === 409 ||
+        msg.toLowerCase().includes("duplicate") ||
+        msg.toLowerCase().includes("already") ||
+        msg.toLowerCase().includes("exists") ||
+        msg.includes("มีอยู่แล้ว") ||
+        msg.includes("ซ้ำ")
+      ) {
+        alert("คุณสมัครสมาชิกไปแล้ว กรุณาเข้าสู่ระบบแทน");
+      } else {
+        alert(msg || "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร");
+      }
     }
   } catch (err) {
     console.error(err);
