@@ -76,7 +76,7 @@ export default async function Home() {
           </div>
           
           <Link href="/restaurant" className="group text-slate-500 font-medium flex items-center gap-2 hover:text-amber-600 transition-colors">
-            VIEW ALL COLLECTIONS 
+            VIEW ALL RESTAURANTS
             <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
           </Link>
         </div>

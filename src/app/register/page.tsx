@@ -14,26 +14,38 @@ export default function RegisterPage() {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  e.preventDefault();
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-      const data = await res.json();
-      if (res.ok && data.success) {
-        alert("สมัครสมาชิกสำเร็จ!");
-        router.push("/login");
+    const data = await res.json();
+    if (res.ok && data.success) {
+      alert("สมัครสมาชิกสำเร็จ!");
+      router.push("/login");
+    } else {
+      const msg = data.msg || "";
+      if (
+        res.status === 409 ||
+        msg.toLowerCase().includes("duplicate") ||
+        msg.toLowerCase().includes("already") ||
+        msg.toLowerCase().includes("exists") ||
+        msg.includes("มีอยู่แล้ว") ||
+        msg.includes("ซ้ำ")
+      ) {
+        alert("คุณสมัครสมาชิกไปแล้ว กรุณาเข้าสู่ระบบแทน");
       } else {
-        alert(data.msg || "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร");
+        alert(msg || "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร");
       }
-    } catch (err) {
-      console.error(err);
-      alert("เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#fcfcfc] p-6 font-sans relative overflow-hidden">
