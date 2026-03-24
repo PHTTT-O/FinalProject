@@ -36,7 +36,9 @@ export default function Navbar() {
     <Link href="/admin/bookings" className="text-sm font-bold text-amber-600">
         ADMIN PANEL
     </Link>
+    
 ) : null}
+
                 <div className="hidden sm:flex flex-col items-end border-l border-slate-200 pl-8">
                   <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">
                     Distinguished Guest
